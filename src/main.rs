@@ -5,7 +5,6 @@ const CHUNK_SIZE: usize = 16 * 1024;
 
 fn main() {
     let silent = env::var("PV_SILENT").unwrap_or(String::new()).len() > 0;
-    dbg!(silent);
 
     let mut total_bytes = 0;
     loop {
@@ -15,10 +14,10 @@ fn main() {
             Ok(x) => x,
             Err(_) => break,
         };
-        dbg!(total_bytes += num_read);
+        total_bytes += num_read;
         io::stdout().write_all(&buffer[..num_read]).unwrap();
     }
-    if dbg!(silent) {
+    if !silent {
         eprintln!("{}", total_bytes);
     }
 }
