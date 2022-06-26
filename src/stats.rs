@@ -1,10 +1,23 @@
-pub fn stats(silent: bool, num_read: usize, total_bytes: &mut usize, last: bool) {
-    *total_bytes += num_read;
-    if !silent {
-        eprint!("\r{}", total_bytes);
+use std::io::Result;
+use std::sync::{Arc, Mutex};
 
-        if last {
-            eprintln!();
+pub fn stats_loop(silent: bool, quit: Arc<Mutex<bool>>) -> Result<()> {
+    let mut total_bytes = 0;
+    loop {
+        // receive the vec of bytes
+        let buffer: Vec<u8> = Vec::new();
+
+        total_bytes += buffer.len();
+        if !silent {
+            eprint!("\r{}", total_bytes);
+        }
+        // send vector to write loop
+        let quit = quit.lock().unwrap();
+        if *quit {
+            break;
         }
     }
+    eprintln!();
+
+    Ok(())
 }
