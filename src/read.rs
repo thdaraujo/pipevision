@@ -1,11 +1,9 @@
-#![allow(dead_code, unused)]
-
 use crate::CHUNK_SIZE;
 use std::fs::File;
 use std::io::{self, BufReader, Read, Result};
-use std::sync::{Arc, Mutex};
+use std::sync::mpsc::Sender;
 
-pub fn read_loop(infile: &str, quit: Arc<Mutex<bool>>) -> Result<()> {
+pub fn read_loop(infile: &str, stats_tx: Sender<Vec<u8>>) -> Result<()> {
     let mut reader: Box<dyn Read> = if !infile.is_empty() {
         Box::new(BufReader::new(File::open(infile)?))
     } else {
@@ -18,12 +16,13 @@ pub fn read_loop(infile: &str, quit: Arc<Mutex<bool>>) -> Result<()> {
             Ok(x) => x,
             Err(_) => break,
         };
-        // send this buffer to stats
-        Vec::from(&buffer[..num_read]);
+
+        if stats_tx.send(Vec::from(&buffer[..num_read])).is_err() {
+            break;
+        }
     }
-    // send empty buffer
-    let mut quit = quit.lock().unwrap();
-    *quit = true;
+
+    let _ = stats_tx.send(Vec::new());
 
     Ok(())
 }
