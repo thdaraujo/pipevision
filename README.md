@@ -1,5 +1,7 @@
-# pipevision
+# PipeVision
 A Rust program to inspect and monitor the progress of data flowing through a pipe.
+
+Based on a Rust course by [Nathan Stocks](https://github.com/CleanCut/pipeviewer).
 
 ## Running tests
 

@@ -3,6 +3,13 @@ name = "pipevision"
 version = "0.1.0"
 authors = ["Thiago Araujo"]
 edition = "2021"
+description = "A Rust program to inspect and monitor the progress of data flowing through a pipe. Based on a course by Nathan Stocks. Use for educational purposes only."
+homepage = "https://github.com/thdaraujo/pipevision"
+repository = "https://github.com/thdaraujo/pipevision"
+readme = "README.md"
+keywords = ["educational"]
+categories = ["command-line-utilities"]
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
