@@ -1,3 +1,12 @@
+//! The stats module will output stats
+//! and performance metrics every number of
+//! seconds.
+//!
+//! # Usage
+//!
+//! TODO: usage.
+//!
+
 mod timer;
 use crossbeam::channel::Receiver;
 use crossterm::{
@@ -59,7 +68,17 @@ fn output_progress(stderr: &mut Stderr, bytes: usize, elapsed: String, rate: f64
     let _ = stderr.flush();
 }
 
-trait TimeOutput {
+/// The TimeOutput trait adds a `.as_time()` method to `u64`
+///
+/// # Example
+/// Here is an example of how to use this method.
+///
+/// ```rust
+/// use pipevision::stats::TimeOutput;
+/// assert_eq!(65_u64.as_time(), String::from("0:01:05"))
+/// ```
+pub trait TimeOutput {
+    /// Renders the u64 into a time string
     fn as_time(&self) -> String;
 }
 
